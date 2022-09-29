@@ -18,6 +18,7 @@ class User extends Coll {
         isVerified: ((json['is_verified']) ?? false) as bool,
         hashedPassword: json['hashed_password']?.toString(),
         name: json['name']?.toString(),
+        password:json["password"],
         code: json['code']?.toString(),
       );
   User({
@@ -27,6 +28,7 @@ class User extends Coll {
     this.hashedPassword,
     this.name,
     this.code,
+    this.password
     this.id,
   });
 
@@ -36,6 +38,7 @@ class User extends Coll {
   final String? name;
   final String? code;
   final bool isVerified;
+  final? password;
 
   String toJson() => json.encode(toMap());
   @override
@@ -45,6 +48,7 @@ class User extends Coll {
         'code': code,
         'role': role?.name,
         'name': name,
+        'password':password,
         'hashed_password': hashedPassword,
         'is_verified': isVerified
       }..removeWhere((key, value) => value == null);
