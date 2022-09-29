@@ -33,7 +33,12 @@ class Items extends Coll {
   }
 
   factory Items.fromMap(Map<String, dynamic> data) => Items(
-        id: data['_id'] != null ? data['_id'] as ObjectId : null,
+     id: data['_id'] != null
+            ? data['_id'] is ObjectId
+                ? data['_id'] as ObjectId
+                : ObjectId.fromHexString(data['_id'])
+            : null,
+  
         name: data['name'] != null ? data['name'] as String : null,
         colors: data['colors'] != null
             ? (data['colors'] as List).cast<String>()
