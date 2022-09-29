@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_models/app_models.dart';
 import 'package:bson/bson.dart';
 
 import '../base/collections.dart';
@@ -7,19 +8,18 @@ import '../base/collections.dart';
 class Category extends Coll {
   final String label, code;
   final ObjectId? id;
+  final Image? image;
 
   Category({
     required this.label,
     required this.code,
+    this.image,
     this.id,
   });
   @override
   Map<String, dynamic> toMap() {
-    return {
-      "_id": id,
-      "label": label,
-      "code": code,
-    };
+    return {"_id": id, "label": label, "code": code, "image": image?.toMap()}
+      ..removeWhere((key, value) => value == null);
   }
 
   factory Category.dummy() {
