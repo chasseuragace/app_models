@@ -28,7 +28,7 @@ class User extends Coll {
     this.hashedPassword,
     this.name,
     this.code,
-    this.password
+    this.password,
     this.id,
   });
 
