@@ -38,7 +38,7 @@ class User extends Coll {
   final String? name;
   final String? code;
   final bool isVerified;
-  final? password;
+  final String? password;
 
   String toJson() => json.encode(toMap());
   @override
