@@ -8,7 +8,7 @@ class Category extends Coll {
   Map<String, dynamic> toMap() {
     return {
       "label": label,
-      code: code,
+      "code": code,
     };
   }
 }
