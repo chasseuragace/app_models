@@ -13,7 +13,12 @@ class Category extends Coll {
   String? tempId;
 
   Category(
-      {this.label, this.code, this.image, this.id, this.children, this.parent});
+      {required this.label,
+      this.code,
+      this.image,
+      this.id,
+      this.children,
+      this.parent});
   @override
   Map<String, dynamic> toMap() {
     return {
