@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:app_models/app_models.dart';
 import 'package:bson/bson.dart';
@@ -13,7 +14,12 @@ class Category extends Coll {
   String? tempId;
 
   Category(
-      {this.label, this.code, this.image, this.id, this.children, this.parent});
+      {required this.label,
+      this.code,
+      this.image,
+      this.id,
+      this.children,
+      this.parent});
   @override
   Map<String, dynamic> toMap() {
     return {
@@ -42,10 +48,11 @@ class Category extends Coll {
               : ObjectId.fromHexString(data['_id'])
           : null,
       label: data['label'] ?? "String",
+      parent: data['parent'] ?? "0",
       children: data['children'] != null
           ? (data['children'] as List).map((e) => Category.fromMap(e)).toList()
           : [],
-      code: data['code'] ?? "String",
+      code: data['code'] ?? Random(200).nextInt(300).toString(),
       image: data['image'] != null ? Image.fromMap(data["image"]) : null);
 
   static List<Category> listToTree(List<Category> list) {
