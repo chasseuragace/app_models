@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:blurhash_dart/blurhash_dart.dart';
 import 'package:bson/bson.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 
 class Image {
   final String? url;
@@ -11,7 +15,7 @@ class Image {
 
   factory Image.fromMap(Map<String, dynamic> data) => Image(
         url: data['url'] as String?,
-        hash: data['hash'] as String?,
+        hash: data['hash'],
         id: data['_id'] != null ? data["_id"] as ObjectId : null,
       );
 
@@ -32,5 +36,22 @@ class Image {
 
   factory Image.dummy() {
     return Image(hash: "String", url: "String");
+  }
+
+  Future<String> blurHashEncode(Uint8List pixels) async {
+    final image = img.decodeImage(pixels);
+    final blurHash = BlurHash.encode(image!, numCompX: 4, numCompY: 3);
+    return blurHash.hash;
+  }
+
+  Future<String> networkImageToHash(String imageUrl) async {
+    http.Response response = await http.get(Uri.parse(imageUrl));
+    final bytes = response.bodyBytes;
+    final hash = await blurHashEncode(bytes);
+    return hash;
+  }
+
+  setHash() async {
+    if (url != null) hash = await networkImageToHash(url!);
   }
 }

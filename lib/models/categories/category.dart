@@ -6,19 +6,14 @@ import 'package:bson/bson.dart';
 import '../base/collections.dart';
 
 class Category extends Coll {
-  final String label, code;
-  final ObjectId? id;
-  final Image? image;
+  String? label, code, parent;
+  ObjectId? id;
+  Image? image;
   List<Category>? children = [];
   String? tempId;
 
-  Category({
-    required this.label,
-    required this.code,
-    this.image,
-    this.id,
-    this.children,
-  });
+  Category(
+      {this.label, this.code, this.image, this.id, this.children, this.parent});
   @override
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +21,7 @@ class Category extends Coll {
       "label": label,
       "code": code,
       "image": image?.toMap(),
+      "parent": parent,
       "children": children?.map((e) => e.toMap()).toList()
     }..removeWhere((key, value) => value == null);
   }
@@ -67,11 +63,10 @@ class Category extends Coll {
     for (i = 0; i < list.length; i += 1) {
       node = list[i];
       var parentId = (node.parent);
-      print("$parentId for ${node.code}");
 
       if (parentId != "0") {
         node.children = [];
-        // if you have dangling branches check that map[parentId] exists
+        // if you have dangling branches,; check that map[parentId] exists
         list[map[parentId]!].children?.add(node);
       } else {
         roots.add(node);
@@ -79,10 +74,5 @@ class Category extends Coll {
     }
 
     return roots;
-  }
-
-  String get parent {
-    var j = code.split("-")..removeLast();
-    return (j.isEmpty ? ["0"] : j).join("-");
   }
 }

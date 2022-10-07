@@ -18,11 +18,11 @@ class User extends Coll {
         isVerified: ((json['is_verified']) ?? false) as bool,
         hashedPassword: json['hashed_password']?.toString(),
         name: json['name']?.toString(),
-        password:json["password"],
+        password: json["password"],
         code: json['code']?.toString(),
       );
   User({
-    required this.email,
+    this.email,
     this.isVerified = false,
     this.role = ROLE.customer,
     this.hashedPassword,
@@ -48,7 +48,7 @@ class User extends Coll {
         'code': code,
         'role': role?.name,
         'name': name,
-        'password':password,
+        'password': password,
         'hashed_password': hashedPassword,
         'is_verified': isVerified
       }..removeWhere((key, value) => value == null);
