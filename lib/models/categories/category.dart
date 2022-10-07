@@ -10,7 +10,7 @@ class Category extends Coll {
   ObjectId? id;
   Image? image;
   List<Category>? children = [];
-  String? tempId;
+  bool? isEnabled;
 
   Category(
       {required this.label,
@@ -18,6 +18,7 @@ class Category extends Coll {
       this.image,
       this.id,
       this.children,
+      this.isEnabled,
       this.parent});
   @override
   Map<String, dynamic> toMap() {
@@ -27,6 +28,7 @@ class Category extends Coll {
       "code": code,
       "image": image?.toMap(),
       "parent": parent,
+      "is_enabled": isEnabled,
       "children": children?.map((e) => e.toMap()).toList()
     }..removeWhere((key, value) => value == null);
   }
@@ -46,8 +48,9 @@ class Category extends Coll {
               ? data['_id'] as ObjectId
               : ObjectId.fromHexString(data['_id'])
           : null,
-      label: data['label'] ?? "String",
+      label: data['label'],
       parent: data['parent'] ?? "0",
+      isEnabled: data['is_enabled'] ?? false,
       children: data['children'] != null
           ? (data['children'] as List).map((e) => Category.fromMap(e)).toList()
           : [],
@@ -62,6 +65,7 @@ class Category extends Coll {
 
     for (i = 0; i < list.length; i += 1) {
       //code index map
+      list[i].children = [];
       map[list[i].code.toString()] = i; // initialize the map
 
     }

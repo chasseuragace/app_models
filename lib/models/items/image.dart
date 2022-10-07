@@ -35,7 +35,7 @@ class Image {
   String toJson() => json.encode(toMap());
 
   factory Image.dummy() {
-    return Image(hash: "String", url: "String");
+    return Image(hash: "LKN]Rv%2Tw=w]~RBVZRi};RPxuwH", url: "String");
   }
 
   Future<String> blurHashEncode(Uint8List pixels) async {
@@ -52,6 +52,10 @@ class Image {
   }
 
   setHash() async {
-    if (url != null) hash = await networkImageToHash(url!);
+    try {
+      if (url != null) hash = await networkImageToHash(url!);
+    } on Exception catch (e) {
+      hash = "LKN]Rv%2Tw=w]~RBVZRi};RPxuwH";
+    }
   }
 }
