@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:app_models/app_models.dart';
 import 'package:bson/bson.dart';
@@ -52,7 +51,7 @@ class Category extends Coll {
       children: data['children'] != null
           ? (data['children'] as List).map((e) => Category.fromMap(e)).toList()
           : [],
-      code: data['code'] ?? Random(200).nextInt(300).toString(),
+      code: data['code'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
       image: data['image'] != null ? Image.fromMap(data["image"]) : null);
 
   static List<Category> listToTree(List<Category> list) {
